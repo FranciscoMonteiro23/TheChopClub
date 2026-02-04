@@ -1,0 +1,364 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "The Chop Club - Feed";
+}
+
+<!-- Hero Section Cinematográfico -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold shine">
+                    <i class="fas fa-cut"></i> THE CHOP CLUB
+                </h1>
+                <p class="lead">
+                    Onde a arte encontra o profissionalismo.<br>
+                    A plataforma exclusiva para barbeiros de excelência.
+                </p>
+                @if (Model.UserId == null)
+                {
+                    <div class="mt-4">
+                        <a asp-page="/Register" class="btn btn-light btn-lg me-3">
+                            <i class="fas fa-user-plus"></i> Juntar-me Agora
+                        </a>
+                        <a asp-page="/Login" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt"></i> Já sou Membro
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Barra de Estatísticas -->
+<section class="container mt-4 mb-5">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="stats-card">
+                <i class="fas fa-store fa-3x mb-3" style="color: var(--barber-gold);"></i>
+                <strong>@Model.TotalBarbershops</strong>
+                <p class="mb-0 text-uppercase">Barbearias Premium</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card">
+                <i class="fas fa-images fa-3x mb-3" style="color: var(--barber-gold);"></i>
+                <strong>@Model.TotalPosts</strong>
+                <p class="mb-0 text-uppercase">Obras de Arte</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card">
+                <i class="fas fa-users fa-3x mb-3" style="color: var(--barber-gold);"></i>
+                <strong>@Model.TotalUsers</strong>
+                <p class="mb-0 text-uppercase">Membros Ativos</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Separador Decorativo -->
+<div class="section-divider"></div>
+
+<!-- Feed Principal -->
+<div class="container">
+    <div class="row">
+        <!-- Coluna Principal - Posts -->
+        <div class="col-lg-8">
+            <!-- Título da Seção -->
+            <div class="mb-4">
+                <h2 style="font-family: var(--font-display); font-size: 2.5rem; letter-spacing: 2px;">
+                    <i class="fas fa-fire" style="color: var(--barber-red);"></i>
+                    GALERIA DE MESTRES
+                </h2>
+                <p style="font-family: var(--font-elegant); font-style: italic; color: var(--barber-grey);">
+                    Os melhores trabalhos da nossa comunidade
+                </p>
+            </div>
+
+            @if (!Model.Posts.Any())
+            {
+                <div class="alert alert-info fade-in-up">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>A galeria aguarda os primeiros mestres!</strong>
+                    <br>
+                    Seja o pioneiro e partilhe a sua arte.
+                </div>
+            }
+            else
+            {
+                <div class="row g-4">
+                    @foreach (var post in Model.Posts)
+                    {
+                        <div class="col-md-6 fade-in-up">
+                            <div class="card shadow-sm h-100 post-card">
+                                <!-- Badge Premium (se aplicável) -->
+                                @if (post.Barbershop.IsPremium)
+                                {
+                                    <div style="position: absolute; top: 15px; right: 15px; z-index: 10;">
+                                        <span class="badge bg-warning text-dark" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                            <i class="fas fa-crown"></i> PREMIUM
+                                        </span>
+                                    </div>
+                                }
+
+                                <!-- Imagem do Post - CLICÁVEL -->
+                                <a href="/Post/@post.Id" style="text-decoration: none; color: inherit;">
+                                    <div style="position: relative; overflow: hidden; height: 280px;">
+                                        <img src="@post.ImageUrl" class="card-img-top" alt="@post.Title"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+
+                                        <!-- Overlay com Info Rápida -->
+                                        <div style="position: absolute; bottom: 0; left: 0; right: 0;
+                                                            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                                                            padding: 1.5rem 1rem 1rem;">
+                                            <h5 class="card-title text-white mb-0"
+                                                style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                                                @post.Title
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <div class="card-body">
+                                    @if (!string.IsNullOrEmpty(post.Description))
+                                    {
+                                        <p class="card-text text-muted mb-3" style="font-size: 0.95rem;">
+                                            @(post.Description.Length > 100 ? post.Description.Substring(0, 100) + "..." :
+                                                                            post.Description)
+                                        </p>
+                                    }
+
+                                    <!-- Info da Barbearia -->
+                                    <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                                        <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                            style="width: 45px; height: 45px;">
+                                            <i class="fas fa-scissors"></i>
+                                        </div>
+                                        <div>
+                                            <strong style="font-size: 1.1rem; color: var(--barber-dark);">
+                                                @post.Barbershop.Name
+                                            </strong>
+                                            <br>
+                                            <small class="text-muted">
+                                                <i class="fas fa-map-marker-alt"></i> @post.Barbershop.City
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estatísticas e Ações -->
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-sm btn-outline-danger" onclick="likePost(@post.Id)">
+                                                <i class="fas fa-heart"></i>
+                                                <span id="likes-@post.Id">@post.Likes</span>
+                                            </button>
+                                            <a href="/Post/@post.Id#comentarios" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-comment"></i> @post.Comments.Count
+                                            </a>
+                                            <span class="btn btn-sm btn-outline-secondary disabled">
+                                                <i class="fas fa-eye"></i> @post.Views
+                                            </span>
+                                        </div>
+                                        <a href="/Post/@post.Id" class="btn btn-sm btn-dark">
+                                            Ver Mais <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <!-- Botão Load More (se houver mais posts) -->
+            @if (Model.Posts.Count >= 20)
+            {
+                <div class="text-center mt-5">
+                    <button class="btn btn-dark btn-lg">
+                        <i class="fas fa-chevron-down"></i> Carregar Mais Trabalhos
+                    </button>
+                </div>
+            }
+        </div>
+
+        <!-- Sidebar - Rankings e Info -->
+        <div class="col-lg-4">
+            <!-- Top Barbearias -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <i class="fas fa-trophy"></i> Hall da Fama
+                </div>
+                <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                    @if (!Model.TopBarbershops.Any())
+                    {
+                        <p class="text-muted mb-0 text-center py-4">
+                            <i class="fas fa-star fa-3x mb-3 d-block" style="color: var(--barber-gold);"></i>
+                            O ranking aguarda os primeiros campeões
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
+                            @for (int i = 0; i < Model.TopBarbershops.Count; i++)
+                            {
+                                var barbershop = Model.TopBarbershops[i];
+                                var position = i + 1;
+                                var medalColor = position == 1 ? "#FFD700" : position == 2 ? "#C0C0C0" : "#CD7F32";
+
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex align-items-start">
+                                        <!-- Posição -->
+                                        <div class="me-3">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                                style="width: 40px; height: 40px; background: @medalColor; color: white; font-weight: bold;">
+                                                #@position
+                                            </div>
+                                        </div>
+
+                                        <!-- Info -->
+                                        <div class="flex-grow-1">
+                                            <strong style="font-size: 1.05rem;">@barbershop.Name</strong>
+                                            @if (barbershop.IsPremium)
+                                            {
+                                                <i class="fas fa-crown text-warning ms-1"></i>
+                                            }
+                                            <br>
+                                            <small class="text-muted">
+                                                <i class="fas fa-map-marker-alt"></i> @barbershop.City
+                                            </small>
+                                            <div class="mt-2">
+                                                <span class="rating-stars text-warning">
+                                                    @for (int s = 0; s < (int)barbershop.Rating; s++)
+                                                    {
+                                                        <i class="fas fa-star"></i>
+                                                    }
+                                                    @if (barbershop.Rating % 1 != 0)
+                                                    {
+                                                        <i class="fas fa-star-half-alt"></i>
+                                                    }
+                                                </span>
+                                                <small class="text-muted ms-2">
+                                                    (@barbershop.TotalReviews reviews)
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Sobre o The Chop Club -->
+            <div class="card shadow-sm mb-4"
+                style="background: linear-gradient(135deg, var(--barber-dark), var(--barber-grey)); color: white;">
+                <div class="card-body p-4">
+                    <h4 style="font-family: var(--font-display); color: var(--barber-gold); font-size: 1.8rem;">
+                        PORQUÊ THE CHOP CLUB?
+                    </h4>
+                    <ul class="list-unstyled mt-3" style="line-height: 2;">
+                        <li><i class="fas fa-check-circle text-warning me-2"></i> Comunidade Exclusiva</li>
+                        <li><i class="fas fa-check-circle text-warning me-2"></i> Zero Comissões</li>
+                        <li><i class="fas fa-check-circle text-warning me-2"></i> Visibilidade Garantida</li>
+                        <li><i class="fas fa-check-circle text-warning me-2"></i> Networking Premium</li>
+                        <li><i class="fas fa-check-circle text-warning me-2"></i> Dashboard Analítico</li>
+                    </ul>
+                    @if (Model.UserId == null)
+                    {
+                        <a asp-page="/Register" class="btn btn-light w-100 mt-3">
+                            <i class="fas fa-rocket"></i> Começar Agora
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Testemunhos -->
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <i class="fas fa-quote-left"></i> Testemunhos
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <p class="fst-italic" style="font-family: var(--font-elegant);">
+                            "O The Chop Club transformou o meu negócio. Finalmente uma plataforma que nos valoriza!"
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                                style="width: 35px; height: 35px; font-size: 0.9rem;">
+                                JM
+                            </div>
+                            <div>
+                                <strong>João Miguel</strong><br>
+                                <small class="text-muted">Barbershop Premium, Porto</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div>
+                        <p class="fst-italic" style="font-family: var(--font-elegant);">
+                            "A melhor decisão que tomei este ano. Clientes de qualidade e sem intermediários."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                                style="width: 35px; height: 35px; font-size: 0.9rem;">
+                                RS
+                            </div>
+                            <div>
+                                <strong>Ricardo Silva</strong><br>
+                                <small class="text-muted">Master Cuts, Lisboa</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Separador Final -->
+<div class="section-divider mb-5"></div>
+
+@section Scripts {
+    <script>
+        // Animação de entrada dos cards
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.fade-in-up');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                }, index * 100);
+            });
+        });
+
+        // Like com animação
+        async function likePost(postId) {
+            const button = event.target.closest('button');
+            const icon = button.querySelector('i');
+            const likesSpan = document.getElementById(`likes-${postId}`);
+
+            // Animação do coração
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            button.classList.add('btn-danger');
+            button.classList.remove('btn-outline-danger');
+
+            // Incrementar número
+            const currentLikes = parseInt(likesSpan.textContent);
+            likesSpan.textContent = currentLikes + 1;
+
+            // Animação de pulso
+            button.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 200);
+        }
+    </script>
+}

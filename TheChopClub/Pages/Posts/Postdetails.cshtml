@@ -1,0 +1,323 @@
+@page "/Post/{id:int}"
+@model TheChopClub.Pages.PostDetailsModel
+@{
+    ViewData["Title"] = Model.Post?.Title ?? "Post";
+}
+
+@if (Model.Post == null)
+{
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> Post não encontrado.
+        </div>
+        <a asp-page="/Index" class="btn btn-dark">
+            <i class="fas fa-arrow-left"></i> Voltar ao Feed
+        </a>
+    </div>
+}
+else
+{
+    <div class="container mt-4 mb-5">
+        <div class="row">
+            <!-- Coluna Principal - Post -->
+            <div class="col-lg-8">
+                <!-- Botão Voltar -->
+                <a asp-page="/Index" class="btn btn-outline-dark mb-4">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Feed
+                </a>
+
+                <!-- Card do Post -->
+                <div class="card shadow-lg mb-4">
+                    <!-- Imagem -->
+                    <img src="@Model.Post.ImageUrl" class="card-img-top" alt="@Model.Post.Title" style="max-height: 600px; object-fit: cover;">
+                    
+                    <div class="card-body p-4">
+                        <!-- Título -->
+                        <h1 class="card-title mb-3" style="font-family: var(--font-elegant); font-size: 2rem;">
+                            @Model.Post.Title
+                        </h1>
+
+                        <!-- Info da Barbearia -->
+                        <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                            <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                 style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                <i class="fas fa-scissors"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0" style="color: var(--barber-dark);">
+                                    @Model.Post.Barbershop.Name
+                                    @if (Model.Post.Barbershop.IsPremium)
+                                    {
+                                        <i class="fas fa-crown text-warning ms-2"></i>
+                                    }
+                                </h5>
+                                <small class="text-muted">
+                                    <i class="fas fa-map-marker-alt"></i> @Model.Post.Barbershop.City
+                                </small>
+                                <br>
+                                <small class="text-muted">
+                                    <i class="far fa-clock"></i> @Model.Post.CreatedAt.ToString("dd/MM/yyyy 'às' HH:mm")
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Descrição -->
+                        @if (!string.IsNullOrEmpty(Model.Post.Description))
+                        {
+                            <div class="mb-4">
+                                <p class="lead" style="font-size: 1.1rem; line-height: 1.8;">
+                                    @Model.Post.Description
+                                </p>
+                            </div>
+                        }
+
+                        <!-- Estatísticas e Ações -->
+                        <div class="d-flex justify-content-between align-items-center py-3 border-top border-bottom mb-4">
+                            <div class="d-flex gap-4">
+                                <button class="btn btn-outline-danger" onclick="likePost(@Model.Post.Id)">
+                                    <i class="fas fa-heart"></i> 
+                                    <span id="likes-@Model.Post.Id">@Model.Post.Likes</span>
+                                </button>
+                                <span class="btn btn-outline-secondary">
+                                    <i class="fas fa-comment"></i> @Model.Comments.Count
+                                </span>
+                                <span class="btn btn-outline-secondary">
+                                    <i class="fas fa-eye"></i> @Model.Post.Views
+                                </span>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-dark" onclick="sharePost()">
+                                    <i class="fas fa-share-alt"></i> Partilhar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Seção de Comentários -->
+                        <div class="comments-section">
+                            <h4 class="mb-4" style="font-family: var(--font-display); letter-spacing: 1px;">
+                                <i class="fas fa-comments"></i> COMENTÁRIOS (@Model.Comments.Count)
+                            </h4>
+
+                            <!-- Formulário de Adicionar Comentário -->
+                            @if (Model.UserId != null)
+                            {
+                                <form method="post" class="mb-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="form-label fw-bold">Deixe o seu comentário:</label>
+                                                <textarea asp-for="NewComment" 
+                                                          class="form-control" 
+                                                          rows="3" 
+                                                          placeholder="O que achou deste trabalho?"
+                                                          maxlength="500"></textarea>
+                                                <span asp-validation-for="NewComment" class="text-danger small"></span>
+                                                <small class="text-muted">Máximo 500 caracteres</small>
+                                            </div>
+                                            <button type="submit" class="btn btn-dark">
+                                                <i class="fas fa-paper-plane"></i> Comentar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle"></i> 
+                                    <a asp-page="/Login" class="alert-link">Faça login</a> para deixar um comentário.
+                                </div>
+                            }
+
+                            <!-- Mensagens -->
+                            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                            {
+                                <div class="alert alert-success fade-in-up">
+                                    <i class="fas fa-check-circle"></i> @Model.SuccessMessage
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <div class="alert alert-danger fade-in-up">
+                                    <i class="fas fa-exclamation-circle"></i> @Model.ErrorMessage
+                                </div>
+                            }
+
+                            <!-- Lista de Comentários -->
+                            @if (!Model.Comments.Any())
+                            {
+                                <div class="text-center py-5">
+                                    <i class="fas fa-comment-slash fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">Ainda não há comentários. Seja o primeiro a comentar!</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="comments-list">
+                                    @foreach (var comment in Model.Comments)
+                                    {
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div class="d-flex gap-3 flex-grow-1">
+                                                        <!-- Avatar -->
+                                                        <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                                                             style="width: 45px; height: 45px;">
+                                                            <i class="fas fa-user"></i>
+                                                        </div>
+                                                        
+                                                        <!-- Conteúdo -->
+                                                        <div class="flex-grow-1">
+                                                            <div class="d-flex align-items-center gap-2 mb-1">
+                                                                <strong>@comment.User.Username</strong>
+                                                                <small class="text-muted">
+                                                                    @comment.CreatedAt.ToString("dd/MM/yyyy 'às' HH:mm")
+                                                                </small>
+                                                            </div>
+                                                            <p class="mb-0">@comment.Content</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Botão Eliminar (se for o autor) -->
+                                                    @if (Model.UserId == comment.UserId)
+                                                    {
+                                                        <form method="post" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" 
+                                                              onsubmit="return confirm('Tem certeza que deseja eliminar este comentário?');">
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Info da Barbearia -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <i class="fas fa-store"></i> Sobre a Barbearia
+                    </div>
+                    <div class="card-body">
+                        <h5>@Model.Post.Barbershop.Name</h5>
+                        @if (!string.IsNullOrEmpty(Model.Post.Barbershop.Description))
+                        {
+                            <p class="text-muted small">@Model.Post.Barbershop.Description</p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.Post.Barbershop.Address))
+                        {
+                            <p class="mb-1">
+                                <i class="fas fa-map-marker-alt text-danger"></i>
+                                @Model.Post.Barbershop.Address
+                            </p>
+                        }
+                        
+                        <p class="mb-1">
+                            <i class="fas fa-city"></i> @Model.Post.Barbershop.City
+                        </p>
+                        
+                        @if (!string.IsNullOrEmpty(Model.Post.Barbershop.Phone))
+                        {
+                            <p class="mb-3">
+                                <i class="fas fa-phone"></i> @Model.Post.Barbershop.Phone
+                            </p>
+                        }
+
+                        <div class="mb-3">
+                            <span class="rating-stars text-warning">
+                                @for (int i = 0; i < (int)Model.Post.Barbershop.Rating; i++)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                                @if (Model.Post.Barbershop.Rating % 1 != 0)
+                                {
+                                    <i class="fas fa-star-half-alt"></i>
+                                }
+                            </span>
+                            <small class="text-muted ms-2">
+                                (@Model.Post.Barbershop.TotalReviews reviews)
+                            </small>
+                        </div>
+
+                        <a href="#" class="btn btn-dark w-100">
+                            <i class="fas fa-calendar-alt"></i> Marcar Horário
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mais Posts desta Barbearia -->
+                @if (Model.RelatedPosts.Any())
+                {
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-dark text-white">
+                            <i class="fas fa-images"></i> Mais Trabalhos
+                        </div>
+                        <div class="card-body p-2">
+                            <div class="row g-2">
+                                @foreach (var relatedPost in Model.RelatedPosts.Take(6))
+                                {
+                                    <div class="col-6">
+                                        <a href="/Post/@relatedPost.Id">
+                                            <img src="@relatedPost.ImageUrl" 
+                                                 class="img-fluid rounded" 
+                                                 alt="@relatedPost.Title"
+                                                 style="height: 120px; width: 100%; object-fit: cover;">
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        async function likePost(postId) {
+            const button = event.target.closest('button');
+            const icon = button.querySelector('i');
+            const likesSpan = document.getElementById(`likes-${postId}`);
+            
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            button.classList.add('btn-danger');
+            button.classList.remove('btn-outline-danger');
+            
+            const currentLikes = parseInt(likesSpan.textContent);
+            likesSpan.textContent = currentLikes + 1;
+            
+            button.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function sharePost() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '@Model.Post?.Title',
+                    text: '@Model.Post?.Description',
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copiado para a área de transferência!');
+            }
+        }
+    </script>
+}

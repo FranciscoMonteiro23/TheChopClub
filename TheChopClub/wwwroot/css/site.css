@@ -1,0 +1,730 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+  /* Paleta de Cores Premium */
+  --barber-red: #D32F2F;
+  --barber-dark: #0D0D0D;
+  --barber-gold: #D4AF37;
+  --barber-cream: #F5F1E8;
+  --barber-grey: #2C2C2C;
+  --barber-white: #FFFFFF;
+
+  /* Tipografia */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-elegant: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.3);
+
+  /* Transições */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ===================================
+   RESET E BASE
+   =================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--barber-cream);
+  color: var(--barber-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/* ===================================
+   NAVBAR - Estilo Barber Premium
+   =================================== */
+
+.navbar {
+  background: linear-gradient(135deg, var(--barber-dark) 0%, var(--barber-grey) 100%) !important;
+  padding: 1rem 0;
+  box-shadow: var(--shadow-lg);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 3px solid var(--barber-red);
+}
+
+.navbar-brand {
+  font-family: var(--font-display);
+  font-size: 2.5rem !important;
+  letter-spacing: 3px;
+  color: var(--barber-white) !important;
+  text-transform: uppercase;
+  position: relative;
+  padding: 0.5rem 1rem;
+  transition: var(--transition-normal);
+}
+
+.navbar-brand::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--barber-red);
+  transform: scaleX(0);
+  transition: var(--transition-normal);
+}
+
+.navbar-brand:hover::before {
+  transform: scaleX(1);
+}
+
+.navbar-brand i {
+  color: var(--barber-red);
+  animation: rotate 3s linear infinite;
+  display: inline-block;
+}
+
+@keyframes rotate {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  color: var(--barber-cream) !important;
+  padding: 0.8rem 1.2rem !important;
+  margin: 0 0.3rem;
+  position: relative;
+  transition: var(--transition-normal);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--barber-gold);
+  transition: var(--transition-normal);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.nav-link:hover {
+  color: var(--barber-gold) !important;
+  transform: translateY(-2px);
+}
+
+.btn-outline-light {
+  border: 2px solid var(--barber-red) !important;
+  color: var(--barber-red) !important;
+  font-weight: 700;
+  padding: 0.6rem 1.5rem !important;
+  border-radius: 0 !important;
+  transition: var(--transition-normal);
+  background: transparent !important;
+}
+
+.btn-outline-light:hover {
+  background: var(--barber-red) !important;
+  color: var(--barber-white) !important;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===================================
+   HERO SECTION - Cinematográfico
+   =================================== */
+
+.hero-section {
+  background: linear-gradient(135deg,
+      var(--barber-dark) 0%,
+      var(--barber-red) 50%,
+      var(--barber-dark) 100%);
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 L60 40 L90 40 L65 60 L75 90 L50 70 L25 90 L35 60 L10 40 L40 40 Z' fill='%23D4AF37' opacity='0.1'/%3E%3C/svg%3E");
+  background-size: contain;
+  opacity: 0.3;
+  animation: float 20s ease-in-out infinite;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+}
+
+.hero-section .display-5 {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--barber-white);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+  animation: slideInLeft 1s ease;
+}
+
+.hero-section .lead {
+  font-family: var(--font-elegant);
+  font-size: 1.5rem;
+  color: var(--barber-gold);
+  font-style: italic;
+  margin-bottom: 2rem;
+  animation: slideInRight 1s ease 0.3s both;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===================================
+   CARDS - Design Premium
+   =================================== */
+
+.card {
+  border: none;
+  border-radius: 0;
+  background: var(--barber-white);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-slow);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--barber-red), var(--barber-gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--transition-normal);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+.post-card img {
+  transition: var(--transition-slow);
+  filter: grayscale(0%);
+}
+
+.post-card:hover img {
+  transform: scale(1.1);
+  filter: grayscale(20%) sepia(30%) hue-rotate(-10deg);
+}
+
+.card-title {
+  font-family: var(--font-elegant);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--barber-dark);
+  margin-bottom: 0.8rem;
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--barber-dark), var(--barber-grey)) !important;
+  color: var(--barber-gold) !important;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none !important;
+  padding: 1rem 1.5rem;
+}
+
+/* ===================================
+   BUTTONS - Estilo Profissional
+   =================================== */
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 0;
+  padding: 0.8rem 2rem;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-dark {
+  background: linear-gradient(135deg, var(--barber-dark), var(--barber-red));
+  color: var(--barber-white);
+}
+
+.btn-dark:hover {
+  background: linear-gradient(135deg, var(--barber-red), var(--barber-dark));
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-light {
+  background: var(--barber-gold);
+  color: var(--barber-dark);
+  font-weight: 700;
+}
+
+.btn-light:hover {
+  background: var(--barber-white);
+  color: var(--barber-red);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-outline-danger {
+  border: 2px solid var(--barber-red);
+  color: var(--barber-red);
+  background: transparent;
+}
+
+.btn-outline-danger:hover {
+  background: var(--barber-red);
+  color: var(--barber-white);
+  border-color: var(--barber-red);
+}
+
+/* ===================================
+   FORMS - Design Elegante
+   =================================== */
+
+.form-control,
+.form-select {
+  border-radius: 0;
+  border: 2px solid #ddd;
+  padding: 1rem 1.2rem;
+  font-family: var(--font-body);
+  transition: var(--transition-normal);
+  background: var(--barber-white);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--barber-red);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+.form-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  color: var(--barber-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* ===================================
+   BADGES E STATS
+   =================================== */
+
+.text-warning {
+  color: var(--barber-gold) !important;
+}
+
+.rating-stars i {
+  font-size: 1.2rem;
+  margin: 0 2px;
+}
+
+/* Estatísticas animadas */
+.stats-card {
+  background: linear-gradient(135deg, var(--barber-dark), var(--barber-grey));
+  color: var(--barber-white);
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  animation: rotate-slow 20s linear infinite;
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stats-card strong {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--barber-gold);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ===================================
+   ALERTS - Design Moderno
+   =================================== */
+
+.alert {
+  border-radius: 0;
+  border-left: 4px solid;
+  padding: 1.2rem 1.5rem;
+  font-weight: 500;
+}
+
+.alert-danger {
+  border-left-color: var(--barber-red);
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--barber-red);
+}
+
+.alert-success {
+  border-left-color: #2E7D32;
+  background: rgba(46, 125, 50, 0.1);
+  color: #2E7D32;
+}
+
+.alert-info {
+  border-left-color: var(--barber-gold);
+  background: rgba(212, 175, 55, 0.1);
+  color: #B8860B;
+}
+
+/* ===================================
+   FOOTER - Fixo no Fundo
+   =================================== */
+
+.footer {
+  background: linear-gradient(135deg, var(--barber-dark) 0%, var(--barber-grey) 100%);
+  color: var(--barber-cream);
+  padding: 3rem 0 1rem;
+  margin-top: auto;
+  position: relative;
+  border-top: 3px solid var(--barber-red);
+  flex-shrink: 0;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      var(--barber-gold) 50%,
+      transparent);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--barber-gold);
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.footer-section p,
+.footer-section a {
+  color: var(--barber-cream);
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.footer-section a:hover {
+  color: var(--barber-gold);
+  padding-left: 5px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.footer-social a {
+  width: 45px;
+  height: 45px;
+  background: var(--barber-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--barber-red);
+  transition: var(--transition-normal);
+}
+
+.footer-social a:hover {
+  background: var(--barber-red);
+  transform: translateY(-5px) rotate(5deg);
+  box-shadow: var(--shadow-md);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  font-size: 0.9rem;
+}
+
+.footer-bottom .text-danger {
+  color: var(--barber-red) !important;
+}
+
+/* ===================================
+   SCROLLBAR PERSONALIZADA
+   =================================== */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--barber-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--barber-red), var(--barber-gold));
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--barber-red);
+}
+
+/* ===================================
+   ANIMAÇÕES E EFEITOS
+   =================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease;
+}
+
+/* Efeito de brilho nos títulos */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 768px) {
+  .hero-section .display-5 {
+    font-size: 3rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.8rem !important;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+/* ===================================
+   EXTRAS - Elementos Decorativos
+   =================================== */
+
+/* Separador decorativo */
+.section-divider {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--barber-gold), transparent);
+  margin: 3rem auto;
+}
+
+/* Loading spinner personalizado */
+.spinner-border-custom {
+  border: 4px solid rgba(211, 47, 47, 0.2);
+  border-top-color: var(--barber-red);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,189 @@
+@page
+@model TheChopClub.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Registo - The Chop Club";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1
+                    style="font-family: var(--font-display); font-size: 4rem; letter-spacing: 4px; color: var(--barber-dark);">
+                    <i class="fas fa-cut" style="color: var(--barber-red);"></i>
+                    JUNTE-SE AO CLUBE
+                </h1>
+                <p
+                    style="font-family: var(--font-elegant); font-size: 1.5rem; font-style: italic; color: var(--barber-grey);">
+                    A sua jornada começa aqui
+                </p>
+            </div>
+
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger fade-in-up" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> @Model.ErrorMessage
+                        </div>
+                    }
+
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="mb-4"
+                                    style="font-family: var(--font-display); color: var(--barber-dark); letter-spacing: 2px;">
+                                    <i class="fas fa-user"></i> DADOS PESSOAIS
+                                </h4>
+
+                                <div class="mb-4">
+                                    <label asp-for="Username" class="form-label">
+                                        <i class="fas fa-user-circle me-2"></i>Nome de Utilizador
+                                    </label>
+                                    <input asp-for="Username" class="form-control form-control-lg"
+                                        placeholder="seunome" />
+                                    <span asp-validation-for="Username" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="Email" class="form-label">
+                                        <i class="fas fa-envelope me-2"></i>Email
+                                    </label>
+                                    <input asp-for="Email" type="email" class="form-control form-control-lg"
+                                        placeholder="seu@email.com" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="Password" class="form-label">
+                                        <i class="fas fa-lock me-2"></i>Password
+                                    </label>
+                                    <input asp-for="Password" type="password" class="form-control form-control-lg"
+                                        placeholder="Mínimo 6 caracteres" />
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label asp-for="ConfirmPassword" class="form-label">
+                                        <i class="fas fa-lock me-2"></i>Confirmar Password
+                                    </label>
+                                    <input asp-for="ConfirmPassword" type="password"
+                                        class="form-control form-control-lg" />
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h4 class="mb-4"
+                                    style="font-family: var(--font-display); color: var(--barber-dark); letter-spacing: 2px;">
+                                    <i class="fas fa-briefcase"></i> TIPO DE CONTA
+                                </h4>
+
+                                <p class="text-muted">
+                                    Escolha o tipo de conta que melhor se adequa:
+                                </p>
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <input type="radio" class="btn-check" asp-for="UserType" value="0"
+                                            id="typeClient" checked />
+                                        <label class="btn w-100 text-start p-4 border" for="typeClient"
+                                            style="border-width: 3px !important;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-dark text-white rounded d-flex align-items-center justify-content-center me-3"
+                                                    style="width: 60px; height: 60px; font-size: 1.8rem;">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-1"
+                                                        style="font-family: var(--font-display); font-size: 1.5rem;">
+                                                        CLIENTE
+                                                    </h5>
+                                                    <p class="mb-0 text-muted small">
+                                                        Procuro serviços de qualidade
+                                                    </p>
+                                                    <small style="color: var(--barber-gold);">
+                                                        <i class="fas fa-check-circle"></i> Acesso total ao feed
+                                                        <br>
+                                                        <i class="fas fa-check-circle"></i> Avaliar barbeiros
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <input type="radio" class="btn-check" asp-for="UserType" value="1"
+                                            id="typeBarber" />
+                                        <label class="btn w-100 text-start p-4 border" for="typeBarber"
+                                            style="border-width: 3px !important;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="text-white rounded d-flex align-items-center justify-content-center me-3"
+                                                    style="width: 60px; height: 60px; font-size: 1.8rem; background: var(--barber-red);">
+                                                    <i class="fas fa-cut"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="mb-1"
+                                                        style="font-family: var(--font-display); font-size: 1.5rem;">
+                                                        BARBEIRO
+                                                    </h5>
+                                                    <p class="mb-0 text-muted small">
+                                                        Ofereço serviços profissionais
+                                                    </p>
+                                                    <small style="color: var(--barber-gold);">
+                                                        <i class="fas fa-check-circle"></i> Dashboard completo
+                                                        <br>
+                                                        <i class="fas fa-check-circle"></i> Loja própria
+                                                        <br>
+                                                        <i class="fas fa-check-circle"></i> Zero comissões
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark btn-lg w-100 mt-4 mb-3">
+                            <i class="fas fa-rocket me-2"></i> Criar Minha Conta
+                        </button>
+
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Já é membro?
+                                <a asp-page="/Login" class="text-decoration-none fw-bold"
+                                    style="color: var(--barber-red);">
+                                    Fazer Login
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelectorAll('.btn-check').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.querySelectorAll('label[for^="type"]').forEach(label => {
+                    label.style.borderColor = '#ddd';
+                    label.style.background = 'white';
+                });
+
+                if (this.checked) {
+                    const label = document.querySelector(`label[for="${this.id}"]`);
+                    label.style.borderColor = 'var(--barber-red)';
+                    label.style.background = 'rgba(211, 47, 47, 0.05)';
+                }
+            });
+        });
+
+        document.querySelector('.btn-check:checked')?.dispatchEvent(new Event('change'));
+    </script>
+}
