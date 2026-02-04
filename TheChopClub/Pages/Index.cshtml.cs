@@ -1,37 +1,46 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Security.Claims;
-using TheChopClub.Models; // <-- ajusta se necessário
+using TheChopClub.Models;
+using TheChopClub.Services;
 
-namespace TheChopClub.Pages
+namespace TheChopClub.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly IPostService _postService;
+    private readonly ApplicationDbContext _context;
+
+    public IndexModel(IPostService postService, ApplicationDbContext context)
     {
-        // Utilizador
-        public string? UserId { get; set; }
+        _postService = postService;
+        _context = context;
+    }
 
-        // Feed
-        public List<Post> Posts { get; set; } = new();
+    public List<Post> Posts { get; set; } = new();
+    public List<Models.Barbershop> TopBarbershops { get; set; } = new();
+    public int? UserId { get; set; }
+    public int TotalBarbershops { get; set; }
+    public int TotalPosts { get; set; }
+    public int TotalUsers { get; set; }
 
-        // Sidebar
-        public List<Barbershop> TopBarbershops { get; set; } = new();
+    public async Task OnGetAsync()
+    {
+        UserId = HttpContext.Session.GetInt32("UserId");
 
-        // Estatísticas
-        public int TotalBarbershops { get; set; }
-        public int TotalPosts { get; set; }
-        public int TotalUsers { get; set; }
+        Posts = await _postService.GetAllPostsAsync(0, 20);
 
-        public void OnGet()
+        TopBarbershops = _context.Barbershops
+            .OrderByDescending(b => b.Rating)
+            .ThenByDescending(b => b.TotalReviews)
+            .Take(5)
+            .ToList();
+
+        TotalBarbershops = _context.Barbershops.Count();
+        TotalPosts = _context.Posts.Count();
+        TotalUsers = _context.Users.Count();
+
+        foreach (var post in Posts)
         {
-            // ID do utilizador autenticado
-            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            // ⚠️ Para já dados fake (só para não rebentar o build)
-            Posts = new List<Post>();
-            TopBarbershops = new List<Barbershop>();
-
-            TotalBarbershops = 0;
-            TotalPosts = 0;
-            TotalUsers = 0;
+            _ = _postService.IncrementViewsAsync(post.Id);
         }
     }
 }

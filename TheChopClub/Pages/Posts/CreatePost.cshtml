@@ -1,0 +1,233 @@
+@page
+@model TheChopClub.Pages.Barbershop.CreatePostModel
+@{
+    ViewData["Title"] = "Criar Post";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Cabeçalho -->
+            <div class="mb-5 text-center">
+                <h1 style="font-family: var(--font-display); font-size: 3rem; color: var(--barber-dark);">
+                    <i class="fas fa-camera"></i> CRIAR POST
+                </h1>
+                <p class="text-muted">Partilha o teu trabalho com a comunidade</p>
+            </div>
+
+            <!-- Card do Formulário -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <i class="fas fa-plus-circle"></i> Novo Post
+                </div>
+                <div class="card-body p-4">
+                    
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i> @Model.ErrorMessage
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                    {
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> @Model.SuccessMessage
+                        </div>
+                    }
+
+                    <form method="post" enctype="multipart/form-data">
+                        
+                        <!-- Título -->
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label fw-bold">
+                                <i class="fas fa-heading"></i> Título do Post
+                            </label>
+                            <input asp-for="Title" 
+                                   class="form-control form-control-lg" 
+                                   placeholder="Ex: Fade Clássico Perfeito"
+                                   maxlength="150" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                            <small class="text-muted">Máximo 150 caracteres</small>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold">
+                                <i class="fas fa-align-left"></i> Descrição (Opcional)
+                            </label>
+                            <textarea asp-for="Description" 
+                                      class="form-control" 
+                                      rows="4"
+                                      placeholder="Conta mais sobre este trabalho..."
+                                      maxlength="1000"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                            <small class="text-muted">Máximo 1000 caracteres</small>
+                        </div>
+
+                        <!-- URL da Imagem -->
+                        <div class="mb-4">
+                            <label asp-for="ImageUrl" class="form-label fw-bold">
+                                <i class="fas fa-image"></i> URL da Imagem
+                            </label>
+                            <input asp-for="ImageUrl" 
+                                   type="url"
+                                   class="form-control form-control-lg" 
+                                   placeholder="https://images.unsplash.com/photo-..."
+                                   id="imageUrlInput" />
+                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle"></i> 
+                                Cole o URL de uma imagem (ex: Unsplash, Imgur, etc.)
+                            </div>
+                        </div>
+
+                        <!-- Pré-visualização -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-eye"></i> Pré-visualização
+                            </label>
+                            <div id="imagePreview" class="border rounded p-3 text-center" style="min-height: 200px; background: #f8f9fa;">
+                                <p class="text-muted">
+                                    <i class="fas fa-image fa-3x mb-3"></i>
+                                    <br>
+                                    A imagem aparecerá aqui
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Sugestões de URLs -->
+                        <div class="alert alert-info">
+                            <strong><i class="fas fa-lightbulb"></i> Dicas:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Usar imagens de alta qualidade</li>
+                                <li><strong>Unsplash:</strong> https://unsplash.com (procurar "barber" ou "haircut")</li>
+                                <li><strong>Formato:</strong> Copiar link da imagem (botão direito → Copiar endereço da imagem)</li>
+                                <li><strong>Exemplo:</strong> https://images.unsplash.com/photo-1234567890?w=800</li>
+                            </ul>
+                        </div>
+
+                        <!-- URLs de Exemplo -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-star"></i> Imagens de Exemplo (clica para usar)
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-6 col-md-3">
+                                    <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400" 
+                                         class="img-fluid rounded cursor-pointer example-image"
+                                         data-url="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800"
+                                         alt="Exemplo 1"
+                                         style="cursor: pointer; border: 3px solid transparent;">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400" 
+                                         class="img-fluid rounded cursor-pointer example-image"
+                                         data-url="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800"
+                                         alt="Exemplo 2"
+                                         style="cursor: pointer; border: 3px solid transparent;">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400" 
+                                         class="img-fluid rounded cursor-pointer example-image"
+                                         data-url="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800"
+                                         alt="Exemplo 3"
+                                         style="cursor: pointer; border: 3px solid transparent;">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400" 
+                                         class="img-fluid rounded cursor-pointer example-image"
+                                         data-url="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800"
+                                         alt="Exemplo 4"
+                                         style="cursor: pointer; border: 3px solid transparent;">
+                                </div>
+                            </div>
+                            <small class="text-muted">Clica numa imagem para usar</small>
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-dark btn-lg flex-grow-1">
+                                <i class="fas fa-paper-plane"></i> Publicar Post
+                            </button>
+                            <a asp-page="/Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Informação Adicional -->
+            <div class="mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5><i class="fas fa-info-circle text-primary"></i> Como funciona?</h5>
+                        <ol class="mb-0">
+                            <li>Escreve um título atrativo para o teu trabalho</li>
+                            <li>Adiciona uma descrição (opcional)</li>
+                            <li>Cola o URL da imagem ou escolhe uma de exemplo</li>
+                            <li>Vê a pré-visualização</li>
+                            <li>Publica!</li>
+                        </ol>
+                        <hr>
+                        <small class="text-muted">
+                            <strong>Nota:</strong> O post aparecerá imediatamente no feed principal e no perfil da tua barbearia.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Pré-visualização da imagem
+        const imageUrlInput = document.getElementById('imageUrlInput');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageUrlInput.addEventListener('input', function() {
+            const url = this.value.trim();
+            
+            if (url) {
+                imagePreview.innerHTML = `
+                    <img src="${url}" 
+                         class="img-fluid rounded" 
+                         style="max-height: 400px; object-fit: cover;"
+                         onerror="this.parentElement.innerHTML='<p class=\\'text-danger\\'><i class=\\'fas fa-exclamation-triangle fa-3x mb-3\\'></i><br>URL inválido ou imagem não encontrada</p>'">
+                `;
+            } else {
+                imagePreview.innerHTML = `
+                    <p class="text-muted">
+                        <i class="fas fa-image fa-3x mb-3"></i>
+                        <br>
+                        A imagem aparecerá aqui
+                    </p>
+                `;
+            }
+        });
+
+        // Imagens de exemplo
+        document.querySelectorAll('.example-image').forEach(img => {
+            img.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                imageUrlInput.value = url;
+                
+                // Trigger input event para atualizar preview
+                imageUrlInput.dispatchEvent(new Event('input'));
+                
+                // Highlight da imagem selecionada
+                document.querySelectorAll('.example-image').forEach(i => {
+                    i.style.borderColor = 'transparent';
+                });
+                this.style.borderColor = 'var(--barber-red)';
+                
+                // Scroll para o preview
+                imagePreview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+}

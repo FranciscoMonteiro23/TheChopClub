@@ -1,6 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using TheChopClub.Models;
 using TheChopClub.Services;
+
+// Configurar cultura invariante para usar ponto nos decimais
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
 var builder = WebApplication.CreateBuilder(args);
 
