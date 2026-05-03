@@ -1,4 +1,4 @@
-# ✂️ The Chop Club
+# ✂️ The Chop Club/ Final Project
 
 Plataforma que conecta barbeiros profissionais com clientes numa comunidade autêntica.
 
