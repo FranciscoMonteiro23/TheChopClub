@@ -1,24 +1,15 @@
 # ✂️ The Chop Club/ Final Project
 
-Plataforma que conecta barbeiros profissionais com clientes numa comunidade autêntica.
+Platform that connects professional barbers with clients in an authentic community.
 
 ## 🚀 TECH STACK
 
-- **ASP.NET Core 10** - Framework principal
-- **Razor Pages** - Interface web
+- **ASP.NET Core 10** - Main Framework
+- **Razor Pages** - Web Interface
 - **Entity Framework Core** - ORM
-- **SQLite** - Base de dados
-- **Bootstrap 5.3** - Design responsivo
-- **BCrypt** - Encriptação de passwords
-
-## 📦 Instalação
-
-### Requisitos
-- .NET 10 SDK
-- Visual Studio Code ou Visual Studio 2022
-
-### Passos
-
+- **SQLite** - Database
+- **Bootstrap 5.3** - Responsive Design
+- **BCrypt** - Password Encryption
 ```bash
 # Clonar repositório
 git clone https://github.com/FranciscoMonteiro23/TheChopClub.git
@@ -33,45 +24,36 @@ dotnet restore
 dotnet run
 ```
 
-Abrir no browser: `https://localhost:5001`
+Open:  `https://localhost:5001`
 
-## 🔐 Credenciais de Teste
+## 🔐 Test Credentials
 
-### Admin/Cliente
+### Admin/Client
 - **Email:** `admin@chopclub.com`
 - **Password:** `Admin123!`
 
-### Barbeiro
+### Barber
 - **Email:** `joao@classiccuts.com`
 - **Password:** `Barber123!`
 
-### Outros Utilizadores
-- `ricardo@mastercuts.com` / `Barber123!` (Barbeiro - Lisboa)
-- `carlos@urbanbarbershop.com` / `Barber123!` (Barbeiro - Braga)
-- `pedro@email.com` / `Cliente123!` (Cliente)
+### Other Users
+- `ricardo@mastercuts.com` / `Barber123!` (Barber - Lisbon)
+- `carlos@urbanbarbershop.com` / `Barber123!` (Barber - Braga)
+- `pedro@email.com` / `Cliente123!` (Client
+## ✨ Features
 
-## ✨ Funcionalidades
-
-### Implementadas (Fase 1)
-- ✅ Sistema de autenticação completo (Cliente/Barbeiro)
-- ✅ Feed com 15 posts de trabalhos
-- ✅ Sistema de comentários funcional
-- ✅ Rankings de barbearias por rating
-- ✅ Design premium com paleta única (vermelho/dourado/preto)
-- ✅ Interface responsiva (mobile-first)
-- ✅ 5 barbearias pré-configuradas
-- ✅ 8 utilizadores de teste
-- ✅ 12 comentários de exemplo
-
-### Próximas Fases
-- 🔜 Upload de imagens real
-- 🔜 Dashboard de barbeiro com analytics
-- 🔜 Sistema de avaliações detalhado
-- 🔜 Marcação de horários
-- 🔜 Loja virtual de produtos
-- 🔜 Chat entre utilizadores
-
-## 📁 Estrutura do Projeto
+### Implemented (Phase 1)
+- ✅ Complete authentication system (Client/Barber)
+- ✅ Feed with 15 work posts
+- ✅ Functional comment system
+- ✅ Barber shop rankings by rating
+- ✅ Premium design with a unique palette (red/gold/black)
+- ✅ Responsive interface (mobile-first)
+- ✅ 5 pre-configured barber shops
+- ✅ 8 test users
+- ✅ 12 example comments
+  
+## 📁 Project structure
 
 ```
 TheChopClub/
@@ -103,68 +85,30 @@ TheChopClub/
 └── appsettings.json        # Configurações
 ```
 
-## 🎨 Design System
-
-### Paleta de Cores
-- **Barber Red:** `#D32F2F` - Destaque principal
-- **Barber Dark:** `#0D0D0D` - Background escuro
-- **Barber Gold:** `#D4AF37` - Acentos premium
-- **Barber Cream:** `#F5F1E8` - Background claro
-
-### Tipografia
-- **Display:** Bebas Neue - Títulos impactantes
-- **Elegant:** Playfair Display - Subtítulos sofisticados
-- **Body:** Montserrat - Texto legível
-
-## 📊 Base de Dados
+## 📊DATABASE
 
 ### Schema
-- **Users** - Utilizadores (Clientes e Barbeiros)
-- **Barbershops** - Barbearias (1:1 com User tipo Barber)
-- **Posts** - Publicações no feed
-- **Comments** - Comentários nos posts
-- **Reviews** - Avaliações das barbearias
-- **Products** - Produtos para venda
+- **Users** - Users (Clients and Barbers)
+- **Barbershops** - Barbershops (1:1 with User type Barber)
+- **Posts** - Posts in the feed
+- **Comments** - Comments on posts
+- **Reviews** - Barbershop reviews
+- **Products** - Products for sale
 
 ### Seed Data
-- 8 utilizadores (1 admin, 5 barbeiros, 2 clientes)
-- 5 barbearias completas
-- 15 posts com imagens do Unsplash
-- 12 comentários distribuídos
-- 11 reviews (ratings 4-5 estrelas)
-- 5 produtos de exemplo
+- 8 users (1 admin, 5 barbers, 2 clients)
+- 5 complete barbershops
+- 15 posts with images from Unsplash
+- 12 distributed comments
+- 11 reviews (ratings 4-5 stars)
+- 5 example products
+  
+#🔒 Security
 
-## 🔒 Segurança
-
-- **BCrypt** para hash de passwords
-- **Validação de input** em todos os formulários
+- **BCrypt** for password hashing
+- **Input validation** in all forms
 - **SQL Injection Protection** via EF Core
 - **Session-based authentication**
-- **HTTPS** obrigatório em produção
-
-## 📸 Screenshots
-
-(Adicionar screenshots do projeto aqui)
-
-## 🛠️ Desenvolvimento
-
-### Executar em modo desenvolvimento
-```bash
-dotnet watch run
-```
-
-### Limpar e reconstruir
-bash
-dotnet clean
-dotnet build
-
-
-### Recriar base de dados
-bash
-# Apagar BD antiga
-del thechopclub.db
-
-# Executar (cria automaticamente)
-dotnet run
+- **HTTPS** required in production
 
 
