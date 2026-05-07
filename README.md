@@ -2,7 +2,7 @@
 
 Plataforma que conecta barbeiros profissionais com clientes numa comunidade autêntica.
 
-## 🚀 Tecnologias
+## 🚀 TECH STACK
 
 - **ASP.NET Core 10** - Framework principal
 - **Razor Pages** - Interface web
