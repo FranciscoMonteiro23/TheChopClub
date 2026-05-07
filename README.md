@@ -154,44 +154,17 @@ dotnet watch run
 ```
 
 ### Limpar e reconstruir
-```bash
+bash
 dotnet clean
 dotnet build
-```
+
 
 ### Recriar base de dados
-```bash
+bash
 # Apagar BD antiga
 del thechopclub.db
 
 # Executar (cria automaticamente)
 dotnet run
-```
 
-## 👥 Autores
 
-- **Francisco Monteiro** - [FranciscoMonteiro23](https://github.com/FranciscoMonteiro23)
-- **[Nome do Colega]** - Contribuidor
-
-## 🎓 Projeto Académico
-
-Desenvolvido para [Nome da Disciplina/Curso]  
-[Nome da Instituição]  
-Ano Letivo 2024/2025
-
-## 📄 Licença
-
-Este projeto é de uso académico.
-
-## 🙏 Agradecimentos
-
-- Imagens: [Unsplash](https://unsplash.com)
-- Ícones: [Font Awesome](https://fontawesome.com)
-- Framework: [ASP.NET Core](https://dotnet.microsoft.com)
-- CSS Framework: [Bootstrap](https://getbootstrap.com)
-
----
-
-⭐ Se gostaste do projeto, dá uma estrela no GitHub!
-
-📧 Contacto: [teu@email.com]
