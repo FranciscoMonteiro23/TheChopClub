@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TheChopClub")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc58e61f3e4bb687ad30e40ef48bad3bef3b1d60")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa1c63139a265eb7d4c095d423fe2edb328010e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("TheChopClub")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TheChopClub")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
