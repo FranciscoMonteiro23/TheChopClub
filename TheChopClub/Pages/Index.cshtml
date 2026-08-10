@@ -107,13 +107,24 @@
                                 <!-- Imagem do Post - CLICÁVEL -->
                                 <a href="/Post/@post.Id" style="text-decoration: none; color: inherit;">
                                     <div style="position: relative; overflow: hidden; height: 280px;">
-                                        <img src="@post.ImageUrl" class="card-img-top" alt="@post.Title"
-                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                        @if (!string.IsNullOrWhiteSpace(post.ImageUrl))
+                                        {
+                                            <img src="@post.ImageUrl" class="card-img-top" alt="@post.Title"
+                                                 style="width: 100%; height: 100%; object-fit: cover;">
+                                        }
+                                        else
+                                        {
+                                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, var(--barber-dark), var(--barber-grey));
+                                                display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-scissors"
+                                                   style="font-size: 3rem; color: rgba(255,255,255,0.4);"></i>
+                                            </div>
+                                        }
 
                                         <!-- Overlay com Info Rápida -->
                                         <div style="position: absolute; bottom: 0; left: 0; right: 0;
-                                                            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-                                                            padding: 1.5rem 1rem 1rem;">
+                                            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+                                            padding: 1.5rem 1rem 1rem;">
                                             <h5 class="card-title text-white mb-0"
                                                 style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                                                 @post.Title
@@ -134,7 +145,7 @@
                                     <!-- Info da Barbearia -->
                                     <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
                                         <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                                            style="width: 45px; height: 45px;">
+                                             style="width: 45px; height: 45px;">
                                             <i class="fas fa-scissors"></i>
                                         </div>
                                         <div>
@@ -213,7 +224,7 @@
                                         <!-- Posição -->
                                         <div class="me-3">
                                             <div class="rounded-circle d-flex align-items-center justify-content-center"
-                                                style="width: 40px; height: 40px; background: @medalColor; color: white; font-weight: bold;">
+                                                 style="width: 40px; height: 40px; background: @medalColor; color: white; font-weight: bold;">
                                                 #@position
                                             </div>
                                         </div>
@@ -255,7 +266,7 @@
 
             <!-- Sobre o The Chop Club -->
             <div class="card shadow-sm mb-4"
-                style="background: linear-gradient(135deg, var(--barber-dark), var(--barber-grey)); color: white;">
+                 style="background: linear-gradient(135deg, var(--barber-dark), var(--barber-grey)); color: white;">
                 <div class="card-body p-4">
                     <h4 style="font-family: var(--font-display); color: var(--barber-gold); font-size: 1.8rem;">
                         PORQUÊ THE CHOP CLUB?
@@ -288,7 +299,7 @@
                         </p>
                         <div class="d-flex align-items-center">
                             <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                                style="width: 35px; height: 35px; font-size: 0.9rem;">
+                                 style="width: 35px; height: 35px; font-size: 0.9rem;">
                                 JM
                             </div>
                             <div>
@@ -306,7 +317,7 @@
                         </p>
                         <div class="d-flex align-items-center">
                             <div class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                                style="width: 35px; height: 35px; font-size: 0.9rem;">
+                                 style="width: 35px; height: 35px; font-size: 0.9rem;">
                                 RS
                             </div>
                             <div>

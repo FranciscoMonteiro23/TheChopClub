@@ -10,11 +10,16 @@ public class PostDetailsModel : PageModel
 {
     private readonly IPostService _postService;
     private readonly ICommentService _commentService;
+    private readonly BookingService _bookingService;
 
-    public PostDetailsModel(IPostService postService, ICommentService commentService)
+    public PostDetailsModel(
+        IPostService postService,
+        ICommentService commentService,
+        BookingService bookingService)
     {
         _postService = postService;
         _commentService = commentService;
+        _bookingService = bookingService;
     }
 
     public Post? Post { get; set; }
@@ -33,12 +38,16 @@ public class PostDetailsModel : PageModel
     [TempData]
     public string? ErrorMessage { get; set; }
 
+    [TempData]
+    public string? BookingSuccessMessage { get; set; }
+
+    [TempData]
+    public string? BookingErrorMessage { get; set; }
+
     public async Task<IActionResult> OnGetAsync(int id)
     {
-        // Obter utilizador da sessão
         UserId = HttpContext.Session.GetInt32("UserId");
 
-        // Carregar post
         Post = await _postService.GetPostByIdAsync(id);
 
         if (Post == null)
@@ -46,17 +55,70 @@ public class PostDetailsModel : PageModel
             return Page();
         }
 
-        // Incrementar visualizações
         await _postService.IncrementViewsAsync(id);
 
-        // Carregar comentários
         Comments = await _commentService.GetCommentsByPostIdAsync(id);
 
-        // Carregar posts relacionados (da mesma barbearia)
         RelatedPosts = await _postService.GetPostsByBarbershopIdAsync(Post.BarbershopId);
         RelatedPosts = RelatedPosts.Where(p => p.Id != id).Take(6).ToList();
 
         return Page();
+    }
+
+    public async Task<IActionResult> OnGetAvailableSlotsAsync(int barbershopId, string date)
+    {
+        if (!DateTime.TryParse(date, out var bookingDate))
+        {
+            return BadRequest();
+        }
+
+        var slots = await _bookingService.GetAvailableSlotsAsync(barbershopId, bookingDate);
+
+        var result = slots.Select(s => new
+        {
+            time = s.Time.ToString(@"hh\:mm"),
+            available = s.IsAvailable
+        });
+
+        return new JsonResult(result);
+    }
+
+    public async Task<IActionResult> OnPostBookAsync(
+        int id,
+        int barbershopId,
+        DateTime bookingDate,
+        string bookingTime,
+        string? bookingNotes)
+    {
+        UserId = HttpContext.Session.GetInt32("UserId");
+
+        if (UserId == null)
+        {
+            BookingErrorMessage = "Precisa estar autenticado para marcar um horário";
+            return RedirectToPage(new { id });
+        }
+
+        if (!TimeSpan.TryParse(bookingTime, out var time))
+        {
+            BookingErrorMessage = "Horário inválido";
+            return RedirectToPage(new { id });
+        }
+
+        var booking = await _bookingService.CreateBookingAsync(
+            barbershopId,
+            UserId.Value,
+            bookingDate,
+            time,
+            bookingNotes);
+
+        if (booking == null)
+        {
+            BookingErrorMessage = "Este horário já não está disponível. Escolha outro.";
+            return RedirectToPage(new { id });
+        }
+
+        BookingSuccessMessage = $"Marcação confirmada para {bookingDate:dd/MM/yyyy} às {time:hh\\:mm}.";
+        return RedirectToPage(new { id });
     }
 
     public async Task<IActionResult> OnPostAsync(int id)
@@ -71,7 +133,6 @@ public class PostDetailsModel : PageModel
 
         if (!ModelState.IsValid)
         {
-            // Recarregar dados
             await OnGetAsync(id);
             return Page();
         }

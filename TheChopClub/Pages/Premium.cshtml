@@ -1,0 +1,289 @@
+@page
+@model TheChopClub.Pages.PremiumModel
+@{
+    ViewData["Title"] = "Planos Premium - The Chop Club";
+}
+
+<!-- Hero Section -->
+<div class="bg-dark text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">
+            <i class="bi bi-crown text-warning"></i> Planos Premium
+        </h1>
+        <p class="lead">
+            Destaque-se da concorrência e faça o seu negócio crescer
+        </p>
+    </div>
+</div>
+
+<!-- Comparação de Planos -->
+<div class="container py-5">
+    <div class="row g-4 mb-5">
+
+        <!-- Plano FREE -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow border-0">
+                <div class="card-header bg-secondary text-white text-center py-4">
+                    <h3 class="mb-0">FREE</h3>
+                    <div class="display-4 fw-bold my-3">0€</div>
+                    <p class="mb-0">Para Começar</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i> Perfil Profissional
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i> Até 5 fotos por post
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i> Publicações ilimitadas
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i> Sistema de avaliações
+                        </li>
+                        <li class="mb-3 text-muted">
+                            <i class="bi bi-x-circle"></i> Dashboard analytics
+                        </li>
+                        <li class="mb-3 text-muted">
+                            <i class="bi bi-x-circle"></i> Loja virtual
+                        </li>
+                        <li class="mb-3 text-muted">
+                            <i class="bi bi-x-circle"></i> Posts em destaque
+                        </li>
+                        <li class="mb-3 text-muted">
+                            <i class="bi bi-x-circle"></i> Suporte prioritário
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-footer bg-white border-0 p-4">
+                    @if (Model.IsLoggedIn && Model.IsBarber)
+                    {
+                        <button class="btn btn-secondary w-100" disabled>
+                            <i class="bi bi-check-circle"></i> Plano Gratuito
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-page="/Account/Register" class="btn btn-secondary w-100">
+                            Começar Grátis
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Plano PREMIUM -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-lg border-warning border-3 position-relative">
+
+                <div class="position-absolute top-0 start-50 translate-middle">
+                    <span class="badge bg-warning text-dark px-4 py-2 rounded-pill">
+                        <i class="bi bi-star-fill"></i> POPULAR
+                    </span>
+                </div>
+
+                <div
+                    class="card-header bg-warning text-dark d-flex flex-column justify-content-center align-items-center text-center py-5">
+                    <h3 class="fw-bold mb-2">PREMIUM</h3>
+                    <div class="display-4 fw-bold mb-2">19€</div>
+                    <p class="mb-0">por mês</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-warning"></i>
+                            <strong>Tudo do FREE +</strong>
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Até 10 fotos por post
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Dashboard com analytics
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Loja virtual integrada
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Posts em destaque no feed
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Badge Premium no perfil
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Estatísticas detalhadas
+                        </li>
+
+                        <li class="mb-3 text-muted">
+                            <i class="bi bi-x-circle"></i>
+                            Suporte prioritário
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-footer bg-white border-0 p-4">
+
+                    @if (Model.IsLoggedIn && Model.IsBarber)
+                    {
+                        <form method="post" asp-page-handler="Subscribe">
+                            <input type="hidden" name="plan" value="Premium" />
+
+                            <button type="submit" class="btn btn-warning w-100 text-dark fw-bold">
+                                <i class="bi bi-arrow-up-circle"></i>
+                                Fazer Upgrade
+                            </button>
+                        </form>
+                    }
+                    else if (Model.IsLoggedIn)
+                    {
+                        <div class="alert alert-info small mb-0">
+                            Disponível apenas para barbeiros
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-page="/Account/Register" class="btn btn-warning w-100 text-dark fw-bold">
+                            Começar Agora
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Plano PROFESSIONAL -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow border-0 bg-dark text-white">
+
+                <div class="card-header bg-gradient text-center py-4 border-0"
+                     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h3 class="mb-0 fw-bold">PROFESSIONAL</h3>
+                    <div class="display-4 fw-bold my-3">49€</div>
+                    <p class="mb-0">por mês</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <ul class="list-unstyled">
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-warning"></i>
+                            <strong>Tudo do PREMIUM +</strong>
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Até 20 fotos por post
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Suporte prioritário 24/7
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Badge Exclusivo "PRO"
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Destaque na homepage
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Relatórios mensais
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Consultoria exclusiva
+                        </li>
+
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Acesso antecipado a features
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 p-4">
+
+                    @if (Model.IsLoggedIn && Model.IsBarber)
+                    {
+                        <form method="post" asp-page-handler="Subscribe">
+                            <input type="hidden" name="plan" value="Professional" />
+
+                            <button type="submit" class="btn btn-light w-100 fw-bold">
+                                <i class="bi bi-rocket-takeoff"></i>
+                                Ir para PRO
+                            </button>
+                        </form>
+                    }
+                    else if (Model.IsLoggedIn)
+                    {
+                        <div class="alert alert-light small mb-0">
+                            Disponível apenas para barbeiros
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-page="/Account/Register" class="btn btn-light w-100 fw-bold">
+                            Começar Agora
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-5 py-5 bg-dark text-white rounded">
+        <h2 class="mb-3">Pronto para crescer?</h2>
+
+        <p class="lead mb-4">
+            Junte-se a centenas de barbeiros que já transformaram o seu negócio
+        </p>
+
+        @if (!Model.IsLoggedIn)
+        {
+            <a asp-page="/Account/Register" class="btn btn-warning btn-lg px-5">
+                <i class="bi bi-rocket-takeoff"></i> Começar Agora
+            </a>
+        }
+        else if (Model.IsBarber)
+        {
+            <a href="#" onclick="window.scrollTo(0,300)" class="btn btn-warning btn-lg px-5">
+                <i class="bi bi-arrow-up-circle"></i> Escolher Plano
+            </a>
+        }
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <script>
+        alert('@TempData["Success"]');
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        alert('@TempData["Error"]');
+    </script>
+}

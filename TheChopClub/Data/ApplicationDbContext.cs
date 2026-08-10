@@ -15,6 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Review> Reviews { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Booking> Bookings { get; set; } // ← NOVO
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -69,6 +70,23 @@ public class ApplicationDbContext : DbContext
             .WithMany()
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // ===== NOVO: Configuração de Booking =====
+        modelBuilder.Entity<Booking>()
+            .HasOne(bk => bk.Barbershop)
+            .WithMany()
+            .HasForeignKey(bk => bk.BarbershopId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Booking>()
+            .HasOne(bk => bk.User)
+            .WithMany()
+            .HasForeignKey(bk => bk.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Booking>()
+            .HasIndex(bk => new { bk.BarbershopId, bk.Date, bk.Time });
+        // ===========================================
 
         SeedData(modelBuilder);
     }

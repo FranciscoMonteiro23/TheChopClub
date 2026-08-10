@@ -29,8 +29,9 @@ else
                 <!-- Card do Post -->
                 <div class="card shadow-lg mb-4">
                     <!-- Imagem -->
-                    <img src="@Model.Post.ImageUrl" class="card-img-top" alt="@Model.Post.Title" style="max-height: 600px; object-fit: cover;">
-                    
+                    <img src="@Model.Post.ImageUrl" class="card-img-top" alt="@Model.Post.Title"
+                         style="max-height: 600px; object-fit: cover;">
+
                     <div class="card-body p-4">
                         <!-- Título -->
                         <h1 class="card-title mb-3" style="font-family: var(--font-elegant); font-size: 2rem;">
@@ -75,7 +76,7 @@ else
                         <div class="d-flex justify-content-between align-items-center py-3 border-top border-bottom mb-4">
                             <div class="d-flex gap-4">
                                 <button class="btn btn-outline-danger" onclick="likePost(@Model.Post.Id)">
-                                    <i class="fas fa-heart"></i> 
+                                    <i class="fas fa-heart"></i>
                                     <span id="likes-@Model.Post.Id">@Model.Post.Likes</span>
                                 </button>
                                 <span class="btn btn-outline-secondary">
@@ -106,11 +107,8 @@ else
                                         <div class="card-body">
                                             <div class="mb-3">
                                                 <label class="form-label fw-bold">Deixe o seu comentário:</label>
-                                                <textarea asp-for="NewComment" 
-                                                          class="form-control" 
-                                                          rows="3" 
-                                                          placeholder="O que achou deste trabalho?"
-                                                          maxlength="500"></textarea>
+                                                <textarea asp-for="NewComment" class="form-control" rows="3"
+                                                          placeholder="O que achou deste trabalho?" maxlength="500"></textarea>
                                                 <span asp-validation-for="NewComment" class="text-danger small"></span>
                                                 <small class="text-muted">Máximo 500 caracteres</small>
                                             </div>
@@ -124,7 +122,7 @@ else
                             else
                             {
                                 <div class="alert alert-info">
-                                    <i class="fas fa-info-circle"></i> 
+                                    <i class="fas fa-info-circle"></i>
                                     <a asp-page="/Login" class="alert-link">Faça login</a> para deixar um comentário.
                                 </div>
                             }
@@ -166,7 +164,7 @@ else
                                                              style="width: 45px; height: 45px;">
                                                             <i class="fas fa-user"></i>
                                                         </div>
-                                                        
+
                                                         <!-- Conteúdo -->
                                                         <div class="flex-grow-1">
                                                             <div class="d-flex align-items-center gap-2 mb-1">
@@ -182,7 +180,8 @@ else
                                                     <!-- Botão Eliminar (se for o autor) -->
                                                     @if (Model.UserId == comment.UserId)
                                                     {
-                                                        <form method="post" asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" 
+                                                        <form method="post" asp-page-handler="DeleteComment"
+                                                              asp-route-commentId="@comment.Id"
                                                               onsubmit="return confirm('Tem certeza que deseja eliminar este comentário?');">
                                                             <button type="submit" class="btn btn-sm btn-outline-danger">
                                                                 <i class="fas fa-trash"></i>
@@ -213,7 +212,7 @@ else
                         {
                             <p class="text-muted small">@Model.Post.Barbershop.Description</p>
                         }
-                        
+
                         @if (!string.IsNullOrEmpty(Model.Post.Barbershop.Address))
                         {
                             <p class="mb-1">
@@ -221,11 +220,11 @@ else
                                 @Model.Post.Barbershop.Address
                             </p>
                         }
-                        
+
                         <p class="mb-1">
                             <i class="fas fa-city"></i> @Model.Post.Barbershop.City
                         </p>
-                        
+
                         @if (!string.IsNullOrEmpty(Model.Post.Barbershop.Phone))
                         {
                             <p class="mb-3">
@@ -249,9 +248,10 @@ else
                             </small>
                         </div>
 
-                        <a href="#" class="btn btn-dark w-100">
+                        <button type="button" class="btn btn-dark w-100" data-bs-toggle="modal"
+                                data-bs-target="#bookingModal">
                             <i class="fas fa-calendar-alt"></i> Marcar Horário
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -268,9 +268,7 @@ else
                                 {
                                     <div class="col-6">
                                         <a href="/Post/@relatedPost.Id">
-                                            <img src="@relatedPost.ImageUrl" 
-                                                 class="img-fluid rounded" 
-                                                 alt="@relatedPost.Title"
+                                            <img src="@relatedPost.ImageUrl" class="img-fluid rounded" alt="@relatedPost.Title"
                                                  style="height: 120px; width: 100%; object-fit: cover;">
                                         </a>
                                     </div>
@@ -284,23 +282,106 @@ else
     </div>
 }
 
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Marcar Horário — @Model.Post?.Barbershop?.Name
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                @if (!string.IsNullOrEmpty(Model.BookingSuccessMessage))
+                {
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        @Model.BookingSuccessMessage
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.BookingErrorMessage))
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        @Model.BookingErrorMessage
+                    </div>
+                }
+
+                @if (Model.UserId == null)
+                {
+                    <div class="alert alert-info mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        <a asp-page="/Account/Login" class="alert-link">Faça login</a>
+                        para marcar um horário.
+                    </div>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="Book" asp-route-id="@Model.Post!.Id" id="bookingForm">
+
+                        <input type="hidden" name="BarbershopId" value="@Model.Post!.BarbershopId" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-calendar"></i> Escolha o dia
+                            </label>
+                            <input type="date" name="BookingDate" id="bookingDate" class="form-control"
+                                   min="@DateTime.Today.ToString("yyyy-MM-dd")" value="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                   required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-clock"></i> Escolha o horário
+                            </label>
+                            <div id="slotsContainer" class="d-flex flex-wrap gap-2">
+                                <span class="text-muted small">A carregar horários...</span>
+                            </div>
+                            <input type="hidden" name="BookingTime" id="selectedTime" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Notas (opcional)</label>
+                            <textarea name="BookingNotes" class="form-control" rows="2"
+                                      placeholder="Ex: corte + barba"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100" id="confirmBookingBtn" disabled>
+                            <i class="fas fa-check"></i> Confirmar Marcação
+                        </button>
+                    </form>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    
+
     <script>
         async function likePost(postId) {
             const button = event.target.closest('button');
             const icon = button.querySelector('i');
             const likesSpan = document.getElementById(`likes-${postId}`);
-            
+
             icon.classList.remove('far');
             icon.classList.add('fas');
             button.classList.add('btn-danger');
             button.classList.remove('btn-outline-danger');
-            
+
             const currentLikes = parseInt(likesSpan.textContent);
             likesSpan.textContent = currentLikes + 1;
-            
+
             button.style.transform = 'scale(1.2)';
             setTimeout(() => {
                 button.style.transform = 'scale(1)';
@@ -313,11 +394,85 @@ else
                     title: '@Model.Post?.Title',
                     text: '@Model.Post?.Description',
                     url: window.location.href
-                }).catch(() => {});
+                }).catch(() => { });
             } else {
                 navigator.clipboard.writeText(window.location.href);
                 alert('Link copiado para a área de transferência!');
             }
         }
+
+        @if (Model.Post != null)
+            {
+                <text>
+                        const barbershopId = @Model.Post.BarbershopId;
+                        const dateInput = document.getElementById('bookingDate');
+                        const slotsContainer = document.getElementById('slotsContainer');
+                        const selectedTimeInput = document.getElementById('selectedTime');
+                        const confirmBtn = document.getElementById('confirmBookingBtn');
+
+                        async function loadSlots(date) {
+                                        if (!slotsContainer || !selectedTimeInput || !confirmBtn) return;
+
+                        slotsContainer.innerHTML = '<span class="text-muted small">A carregar horários...</span>';
+                        selectedTimeInput.value = '';
+                        confirmBtn.disabled = true;
+
+                        try {
+                                            const url = `?handler=AvailableSlots&barbershopId=${barbershopId}&date=${date}`;
+                                            const response = await fetch(url);
+                                            const slots = await response.json();
+
+                                            slotsContainer.innerHTML = '';
+
+                                            slots.forEach(slot => {
+                                                const btn = document.createElement('button');
+                                                btn.type = 'button';
+                                                btn.textContent = slot.time;
+                                                btn.className = slot.available
+                                                    ? 'btn btn-outline-dark btn-sm slot-btn'
+                                                    : 'btn btn-outline-secondary btn-sm slot-btn';
+                                                btn.disabled = !slot.available;
+
+                                                if (slot.available) {
+                                                    btn.addEventListener('click', () => {
+                                                        document.querySelectorAll('.slot-btn').forEach(b => {
+                                                            b.classList.remove('active', 'btn-dark');
+                                                        });
+                                                        btn.classList.add('active', 'btn-dark');
+                                                        selectedTimeInput.value = slot.time;
+                                                        confirmBtn.disabled = false;
+                                                    });
+                                                }
+
+                                                slotsContainer.appendChild(btn);
+                                            });
+
+                                            if (slots.every(s => !s.available)) {
+                                                slotsContainer.innerHTML =
+                                                    '<span class="text-danger small">Sem horários disponíveis neste dia.</span>';
+                                            }
+                                        } catch {
+                                            slotsContainer.innerHTML =
+                                                '<span class="text-danger small">Erro ao carregar horários.</span>';
+                                        }
+                                    }
+
+                                    if (dateInput) {
+                                        dateInput.addEventListener('change', () => loadSlots(dateInput.value));
+
+                                        document.getElementById('bookingModal')
+                                            ?.addEventListener('shown.bs.modal', () => loadSlots(dateInput.value));
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Model.BookingSuccessMessage) || !string.IsNullOrEmpty(Model.BookingErrorMessage))
+                                    {
+                                                <text>
+                                                        document.addEventListener('DOMContentLoaded', () => {
+                                                            bootstrap.Modal.getOrCreateInstance(document.getElementById('bookingModal')).show();
+                                                        });
+                                                </text>
+                                    }
+                            </text>
+                }
     </script>
 }
